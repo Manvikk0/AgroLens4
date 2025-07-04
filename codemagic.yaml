@@ -1,0 +1,12 @@
+workflows:
+  android-build:
+    name: Android APK Build
+    scripts:
+      # 1) list every file/folder so you can verify gradlew is really there
+      - ls -R .
+      # 2) if gradlew exists, make it executable
+      - chmod +x gradlew || true
+      # 3) run it (if it wasn’t in the root, this’ll error—see ls output)
+      - ./gradlew assembleDebug
+    artifacts:
+      - app/build/outputs/apk/debug/*.apk
