@@ -2,11 +2,18 @@ workflows:
   android-build:
     name: Android APK Build
     scripts:
-      # 1) list every file/folder so you can verify gradlew is really there
+      # 1) show what’s in the root (for debugging)
       - ls -R .
-      # 2) if gradlew exists, make it executable
-      - chmod +x gradlew || true
-      # 3) run it (if it wasn’t in the root, this’ll error—see ls output)
+      # 2) unzip your android.zip into ./android/
+      - unzip android.zip -d android
+      # 3) verify it landed where we expect
+      - ls -R android
+      # 4) cd into the unzipped project
+      - cd android
+      # 5) make the wrapper executable
+      - chmod +x gradlew
+      # 6) build the debug APK
       - ./gradlew assembleDebug
     artifacts:
-      - app/build/outputs/apk/debug/*.apk
+      # where to find your generated APK
+      - android/app/build/outputs/apk/debug/*.apk
